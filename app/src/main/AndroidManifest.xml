@@ -12,7 +12,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mondu">
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardWaliKelasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardGuruActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardSiswaActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
