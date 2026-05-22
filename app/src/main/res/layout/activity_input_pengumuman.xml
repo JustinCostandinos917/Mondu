@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8FAFC"
+    android:padding="20dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buat Informasi Baru"
+            android:textColor="#1E293B"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Mondu Portal"
+            android:textColor="#94A3B8"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Judul Pengumuman"
+        android:textColor="#475569"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="6dp"/>
+    <EditText
+        android:id="@+id/etInputJudul"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Masukkan judul informasi..."
+        android:background="@android:drawable/edit_text"
+        android:paddingHorizontal="12dp"
+        android:inputType="text"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Isi / Konten Pengumuman"
+        android:textColor="#475569"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="6dp"/>
+    <EditText
+        android:id="@+id/etInputKonten"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:hint="Tuliskan detail informasi atau pesan di sini..."
+        android:background="@android:drawable/edit_text"
+        android:padding="12dp"
+        android:gravity="top|start"
+        android:inputType="textMultiLine"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lampiran Berkas (Opsional)"
+        android:textColor="#475569"
+        android:textStyle="bold"
+        android:textSize="14sp"
+        android:layout_marginBottom="6dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="12dp"
+        android:layout_marginBottom="32dp">
+        <Button
+            android:id="@+id/btnPilihFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih PDF"
+            android:textSize="12sp"
+            android:backgroundTint="#64748B"/>
+        <TextView
+            android:id="@+id/tvNamaFileTerpilih"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btnPilihFile"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:text="Belum ada file dipilih"
+            android:textColor="#94A3B8"
+            android:textSize="13sp"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnKirimPengumuman"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="🚀 Publish Pengumuman"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#2563EB" />
+
+</LinearLayout>
