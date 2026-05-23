@@ -1,5 +1,6 @@
 package com.example.mondu
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -54,11 +55,22 @@ class LoginActivity : AppCompatActivity() {
 
                         if (status == "success") {
                             val dataUser = jsonObject.getJSONObject("user")
+                            val idUser = dataUser.getString("id_user")
                             val role = dataUser.getString("role")
                             val namaUser = dataUser.getString("nama_lengkap")
 
                             Toast.makeText(this, "Selamat datang, $namaUser!", Toast.LENGTH_SHORT).show()
 
+                            val sharedPref = getSharedPreferences("MonduSession", Context.MODE_PRIVATE)
+                            val editor = sharedPref.edit()
+
+                            editor.putBoolean("isLoggedIn", true) // Tanda kalau user sudah login
+                            editor.putString("id_user", idUser)
+                            editor.putString("username", username)
+                            editor.putString("nama_lengkap", namaUser)
+                            editor.putString("role", role)
+
+                            editor.apply()
                             // Alur pemisahan halaman berdasarkan Hak Akses/Role
                             if (role == "Siswa") {
                                 // Arahkan ke dashboard siswa utama
@@ -68,10 +80,10 @@ class LoginActivity : AppCompatActivity() {
                                 startActivity(Intent(this, DashboardGuruActivity::class.java))
                             } else if (role == "Wali Kelas") {
                                 // Arahkan ke halaman input pengumuman atau dashboard guru
-                                startActivity(Intent(this, DashboardGuruActivity::class.java))
+                                startActivity(Intent(this, DashboardWaliKelasActivity::class.java))
                             } else if (role == "Admin") {
                                 // Arahkan ke halaman input pengumuman atau dashboard guru
-                                startActivity(Intent(this, DashboardGuruActivity::class.java))
+                                startActivity(Intent(this, DashboardAdminActivity::class.java))
                             }
                             finish() // Tutup halaman login
                         } else {

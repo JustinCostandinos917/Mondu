@@ -8,7 +8,7 @@ if (isset($_GET['email'])) {
     $email = mysqli_real_escape_string($koneksi, $_GET['email']);
     
     // 🔥 CEK APURAKAH EMAIL TERDAFTAR DI DATABASE ATAU TIDAK
-    $cek_email = mysqli_query($koneksi, "SELECT id_user FROM tbl_user WHERE email = '$email' LIMIT 1");
+    $cek_email = mysqli_query($koneksi, "SELECT id_user FROM users WHERE email = '$email' LIMIT 1");
     
     if (mysqli_num_rows($cek_email) == 0) {
         // Jika hasil pencarian 0 baris, artinya email palsu / tidak terdaftar
@@ -31,8 +31,8 @@ if (isset($_POST['submit'])) {
             
             // 🚀 LANGSUNG UPDATE PASSWORD DI DATABASE
             // Catatan: Jika di Login kamu pakai MD5, bungkus dengan md5($password_baru)
-            $query_update = "UPDATE tbl_user SET password = '$password_baru' 
-                             WHERE id_user = (SELECT id_user FROM tbl_user WHERE email = '$email' LIMIT 1)";
+            $query_update = "UPDATE users SET password = '$password_baru' 
+                             WHERE id_user = (SELECT id_user FROM users WHERE email = '$email' LIMIT 1)";
             $execute = mysqli_query($koneksi, $query_update);
 
             if ($execute) {

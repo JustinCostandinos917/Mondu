@@ -10,12 +10,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if(!empty($username) && !empty($password) && !empty($nama_lengkap) && !empty($role)) {
         // Cek apakah username sudah terpakai
-        $cek = mysqli_query($koneksi, "SELECT * FROM tbl_user WHERE username='$username'");
+        $cek = mysqli_query($koneksi, "SELECT * FROM users WHERE username='$username'");
         if(mysqli_num_rows($cek) > 0) {
             echo json_encode(["status" => "error", "message" => "Username sudah terdaftar!"]);
         } else {
             // Simpan user baru
-            $query = "INSERT INTO tbl_user (username, password, nama_lengkap, role) VALUES ('$username', '$password', '$nama_lengkap', '$role')";
+            $query = "INSERT INTO users (username, password, nama_lengkap, role) VALUES ('$username', '$password', '$nama_lengkap', '$role')";
             if(mysqli_query($koneksi, $query)) {
                 echo json_encode(["status" => "success", "message" => "Register berhasil!"]);
             } else {

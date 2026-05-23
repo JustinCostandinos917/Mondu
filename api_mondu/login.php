@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if(!empty($username) && !empty($password)) {
-        $query = "SELECT * FROM tbl_user WHERE username='$username' AND password='$password'";
+        $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
         $result = mysqli_query($koneksi, $query);
 
         if(mysqli_num_rows($result) > 0) {

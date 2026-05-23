@@ -15,6 +15,24 @@
         android:theme="@style/Theme.Mondu"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".AturWaliActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddJadwalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ContactUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GantiPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".InputPengumumanActivity"
             android:exported="false" />
         <activity
@@ -28,6 +46,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,8 +64,7 @@
             android:exported="false" />
         <activity
             android:name=".DashboardSiswaActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

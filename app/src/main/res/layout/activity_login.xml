@@ -28,7 +28,7 @@
                 android:scaleType="centerCrop"
                 android:background="#1E3A8A"
                 android:padding="20dp"
-                android:tint="@android:color/white"/>
+                app:tint="@android:color/white" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
