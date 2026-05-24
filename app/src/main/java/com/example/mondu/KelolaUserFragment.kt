@@ -76,7 +76,6 @@ class KelolaUserFragment : Fragment() {
         )
         rvUsers.adapter = userAdapter
 
-        // Panggil fungsi untuk mengambil data dari SQL
         loadUsersFromDatabase()
 
         fabAddUser.setOnClickListener {
@@ -108,7 +107,6 @@ class KelolaUserFragment : Fragment() {
     }
 
     private fun loadUsersFromDatabase() {
-        // URL API untuk mengambil data user
         val url = "http://10.0.2.2/api_mondu/get_users.php"
 
         val queue = Volley.newRequestQueue(context)
@@ -120,7 +118,6 @@ class KelolaUserFragment : Fragment() {
                     for (i in 0 until response.length()) {
                         val obj = response.getJSONObject(i)
 
-                        // Bungkus data JSON dari PHP ke format objek Data Class Kotlin
                         val user = User(
                             obj.getString("id_user"),
                             obj.getString("username"),
@@ -132,7 +129,7 @@ class KelolaUserFragment : Fragment() {
                         fullUserList.add(user)
                     }
                     
-                    // Setelah data di-load, apply filter & search yang sedang aktif
+
                     applyFilterAndSearch()
 
                 } catch (e: JSONException) {
@@ -158,14 +155,14 @@ class KelolaUserFragment : Fragment() {
     private fun applyFilterAndSearch() {
         userList.clear()
         
-        // Filter berdasarkan role
+        // Buat filter
         val roleFiltered = if (currentFilter == "all") {
             fullUserList
         } else {
             fullUserList.filter { it.role.equals(currentFilter, ignoreCase = true) }
         }
 
-        // Filter berdasarkan search query (nama lengkap atau username)
+
         val finalFiltered = if (currentSearchQuery.isEmpty()) {
             roleFiltered
         } else {
@@ -218,6 +215,6 @@ class KelolaUserFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        loadUsersFromDatabase() // Otomatis refresh list data saat kembali dari halaman Add/Edit
+        loadUsersFromDatabase()
     }
 }
