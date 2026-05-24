@@ -34,6 +34,10 @@ class DashboardAdminActivity : AppCompatActivity() {
                     bukaFragment(KelolaUserFragment())
                     true
                 }
+                R.id.nav_logs -> {
+                    bukaFragment(LogAktivitasFragment())
+                    true
+                }
                 R.id.nav_akademik -> {
                     bukaFragment(AkademikFragment())
                     true
@@ -46,6 +50,12 @@ class DashboardAdminActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun setBottomNavigationItem(itemId: Int) {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNav.selectedItemId = itemId
+    }
+
     private fun bukaFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)

@@ -12,23 +12,76 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <!-- Judul Halaman -->
+        <!-- Header: Judul -->
         <TextView
             android:id="@+id/tvTitleUsers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:text="Kelola Data User"
             android:textColor="#1E3A8A"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:textStyle="bold" />
+
+        <!-- Search Bar -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitleUsers"
+            android:layout_marginBottom="8dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:hintEnabled="false"
+            app:startIconDrawable="@android:drawable/ic_menu_search">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etSearchUsers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cari nama user..."
+                android:inputType="text"
+                android:padding="12dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Filter Button below Search Bar -->
+        <LinearLayout
+            android:id="@+id/filterLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/searchLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Filter"
+                android:textColor="#1E3A8A"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/btnFilterUsers"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Filter"
+                android:src="@drawable/ic_filter_tune"
+                app:tint="#1E3A8A" />
+        </LinearLayout>
 
         <!-- List Data User -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvUsers"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tvTitleUsers"
+            android:layout_below="@id/filterLayout"
             android:clipToPadding="false"
             android:paddingBottom="80dp"
             tools:listitem="@layout/item_user" />

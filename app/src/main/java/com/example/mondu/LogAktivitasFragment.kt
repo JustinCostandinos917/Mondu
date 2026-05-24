@@ -1,59 +1,110 @@
 package com.example.mondu
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [LogAktivitasFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LogAktivitasFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var rvLogs: RecyclerView
+    private lateinit var etSearchLogs: TextInputEditText
+    private lateinit var btnFilterLogs: android.widget.ImageButton
+    private lateinit var logAdapter: LogAdapter
+    private var logList = ArrayList<LogActivity>()
+    private var fullLogList = ArrayList<LogActivity>()
+    private var currentFilter = "all"
+    private var currentSearchQuery = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_log_aktivitas, container, false)
+        val view = inflater.inflate(R.layout.fragment_log_aktivitas, container, false)
+
+        rvLogs = view.findViewById(R.id.rvLogs)
+        etSearchLogs = view.findViewById(R.id.etSearchLogs)
+        btnFilterLogs = view.findViewById(R.id.btnFilterLogs)
+
+        rvLogs.layoutManager = LinearLayoutManager(context)
+
+        // Mock Data for Logs
+        loadMockLogs()
+
+        logAdapter = LogAdapter(logList)
+        rvLogs.adapter = logAdapter
+
+        // Setup Filter
+        btnFilterLogs.setOnClickListener { showFilterMenu(it) }
+
+        // Setup Search
+        etSearchLogs.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                currentSearchQuery = s.toString()
+                applyFilterAndSearch()
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LogAktivitasFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LogAktivitasFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun loadMockLogs() {
+        fullLogList.clear()
+        fullLogList.add(LogActivity("1", "Admin Justin", "admin", "Menambahkan Guru Baru: Budi", "09:00"))
+        fullLogList.add(LogActivity("2", "Guru Budi", "guru", "Menginput nilai Matematika Kelas 10", "09:15"))
+        fullLogList.add(LogActivity("3", "Siswa Andi", "siswa", "Melakukan absensi masuk", "09:30"))
+        fullLogList.add(LogActivity("4", "Admin Justin", "admin", "Menghapus user: Test Account", "10:00"))
+        fullLogList.add(LogActivity("5", "Guru Siti", "guru", "Mengubah jadwal Seni Budaya", "10:45"))
+        
+        logList.addAll(fullLogList)
+    }
+
+    private fun showFilterMenu(view: View) {
+        val popup = androidx.appcompat.widget.PopupMenu(requireContext(), view)
+        popup.menu.add("Semua")
+        popup.menu.add("Guru")
+        popup.menu.add("Siswa")
+        popup.menu.add("Admin")
+
+        popup.setOnMenuItemClickListener { item ->
+            currentFilter = when (item.title) {
+                "Guru" -> "guru"
+                "Siswa" -> "siswa"
+                "Admin" -> "admin"
+                else -> "all"
             }
+            applyFilterAndSearch()
+            true
+        }
+        popup.show()
+    }
+
+    private fun applyFilterAndSearch() {
+        logList.clear()
+        
+        val roleFiltered = if (currentFilter == "all") {
+            fullLogList
+        } else {
+            fullLogList.filter { it.role.equals(currentFilter, ignoreCase = true) }
+        }
+
+        val finalFiltered = if (currentSearchQuery.isEmpty()) {
+            roleFiltered
+        } else {
+            roleFiltered.filter { 
+                it.aksi.contains(currentSearchQuery, ignoreCase = true) ||
+                it.nama_user.contains(currentSearchQuery, ignoreCase = true)
+            }
+        }
+
+        logList.addAll(finalFiltered)
+        logAdapter.updateData(logList)
     }
 }
