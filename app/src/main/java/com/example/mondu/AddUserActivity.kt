@@ -58,6 +58,10 @@ class AddUserActivity : AppCompatActivity() {
         actvGender = findViewById(R.id.actvGender)
         btnSimpanUser = findViewById(R.id.btnSimpanUser)
 
+        findViewById<View>(R.id.btnBackAddUser).setOnClickListener {
+            finish()
+        }
+
         // 1. Setup Dropdown Role
         val listRole = arrayOf("Admin", "Guru", "Wali Kelas", "Siswa")
         actvRole.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, listRole))

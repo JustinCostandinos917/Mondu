@@ -12,6 +12,11 @@
         android:title="Users" />
 
     <item
+        android:id="@+id/nav_logs"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Logs" />
+
+    <item
         android:id="@+id/nav_akademik"
         android:icon="@drawable/ic_school"
         android:title="Akademik" />

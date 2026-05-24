@@ -2,11 +2,14 @@ package com.example.mondu
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,13 +17,19 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONException
 
 class KelolaUserFragment : Fragment() {
     private lateinit var rvUsers: RecyclerView
     private lateinit var fabAddUser: FloatingActionButton
+    private lateinit var btnFilterUsers: android.widget.ImageButton
+    private lateinit var etSearchUsers: TextInputEditText
     private lateinit var userAdapter: UserAdapter
     private var userList = ArrayList<User>()
+    private var fullUserList = ArrayList<User>()
+    private var currentFilter = "all"
+    private var currentSearchQuery = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,8 +39,23 @@ class KelolaUserFragment : Fragment() {
 
         rvUsers = view.findViewById(R.id.rvUsers)
         fabAddUser = view.findViewById(R.id.fabAddUser)
+        btnFilterUsers = view.findViewById(R.id.btnFilterUsers)
+        etSearchUsers = view.findViewById(R.id.etSearchUsers)
 
         rvUsers.layoutManager = LinearLayoutManager(context)
+
+        // Setup Filter Popup
+        btnFilterUsers.setOnClickListener { showFilterMenu(it) }
+
+        // Setup Search Logic
+        etSearchUsers.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                currentSearchQuery = s.toString()
+                applyFilterAndSearch()
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         // Inisialisasi adapter dengan list kosong terlebih dahulu
         userAdapter = UserAdapter(
@@ -63,9 +87,28 @@ class KelolaUserFragment : Fragment() {
         return view
     }
 
+    private fun showFilterMenu(view: View) {
+        val popup = androidx.appcompat.widget.PopupMenu(requireContext(), view)
+        popup.menu.add("Semua")
+        popup.menu.add("Guru")
+        popup.menu.add("Siswa")
+        popup.menu.add("Admin")
+
+        popup.setOnMenuItemClickListener { item ->
+            val selectedRole = when (item.title) {
+                "Guru" -> "guru"
+                "Siswa" -> "siswa"
+                "Admin" -> "admin"
+                else -> "all"
+            }
+            applyFilter(selectedRole)
+            true
+        }
+        popup.show()
+    }
+
     private fun loadUsersFromDatabase() {
-        // GANTI IP INI dengan IP Laptop kamu (kalau pakai localhost) atau URL Hosting kamu
-        // Contoh kalau pakai emulator bawaan Android Studio ke localhost laptop: http://10.0.2.2/folder_kamu/get_users.php
+        // URL API untuk mengambil data user
         val url = "http://10.0.2.2/api_mondu/get_users.php"
 
         val queue = Volley.newRequestQueue(context)
@@ -73,7 +116,7 @@ class KelolaUserFragment : Fragment() {
             Request.Method.GET, url, null,
             { response ->
                 try {
-                    userList.clear() // Bersihkan list lama
+                    fullUserList.clear() // Bersihkan list master
                     for (i in 0 until response.length()) {
                         val obj = response.getJSONObject(i)
 
@@ -86,15 +129,16 @@ class KelolaUserFragment : Fragment() {
                             obj.getString("role"),
                             if (obj.isNull("foto_profil")) null else obj.getString("foto_profil")
                         )
-                        userList.add(user)
+                        fullUserList.add(user)
                     }
-                    // Beritahu adapter kalau data SQL ter-update dan siap tampil
-                    userAdapter.updateData(userList)
+                    
+                    // Setelah data di-load, apply filter & search yang sedang aktif
+                    applyFilterAndSearch()
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     Toast.makeText(context, "Gagal parsing data", Toast.LENGTH_SHORT).show()
-                    Log.e("gnti", "Something went wrong: ${e.message}", e)
+                    Log.e("KelolaUserFragment", "Something went wrong: ${e.message}", e)
                 }
             },
             { error ->
@@ -105,6 +149,36 @@ class KelolaUserFragment : Fragment() {
 
         queue.add(jsonArrayRequest)
     }
+
+    private fun applyFilter(role: String) {
+        currentFilter = role
+        applyFilterAndSearch()
+    }
+
+    private fun applyFilterAndSearch() {
+        userList.clear()
+        
+        // Filter berdasarkan role
+        val roleFiltered = if (currentFilter == "all") {
+            fullUserList
+        } else {
+            fullUserList.filter { it.role.equals(currentFilter, ignoreCase = true) }
+        }
+
+        // Filter berdasarkan search query (nama lengkap atau username)
+        val finalFiltered = if (currentSearchQuery.isEmpty()) {
+            roleFiltered
+        } else {
+            roleFiltered.filter { 
+                it.nama_lengkap.contains(currentSearchQuery, ignoreCase = true) ||
+                it.username.contains(currentSearchQuery, ignoreCase = true)
+            }
+        }
+
+        userList.addAll(finalFiltered)
+        userAdapter.updateData(userList)
+    }
+
     private fun tampilkanDialogHapus(user: User) {
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setTitle("Hapus User")
