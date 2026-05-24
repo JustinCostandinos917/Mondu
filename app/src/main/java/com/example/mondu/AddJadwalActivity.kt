@@ -34,7 +34,6 @@ class AddJadwalActivity : AppCompatActivity() {
         hari = intent.getStringExtra("HARI") ?: ""
 
         setupDropdownMapel()
-        setupDropdownJam(idKelas, hari)
 
         findViewById<MaterialButton>(R.id.btnSimpan).setOnClickListener {
             tambahDataKeServer()
@@ -64,13 +63,19 @@ class AddJadwalActivity : AppCompatActivity() {
                 val selectedNama = parent.getItemAtPosition(position).toString()
                 val mapelTerpilih = mapelList.find { it["nama"] == selectedNama }
                 tvGuru.text = "Guru: ${mapelTerpilih?.get("nama_guru") ?: "-"}"
+
+                val nuptk = mapelTerpilih?.get("nuptk") ?: ""
+
+                findViewById<AutoCompleteTextView>(R.id.dropdownJam).setText("", false)
+
+                setupDropdownJam(idKelas, hari, nuptk)
             }
         }, { it.printStackTrace() })
         Volley.newRequestQueue(this).add(request)
     }
 
-    private fun setupDropdownJam(idKelas: String?, hari: String) {
-        val url = "http://10.0.2.2/api_mondu/get_jam.php?id_kelas=$idKelas&hari=$hari"
+    private fun setupDropdownJam(idKelas: String?, hari: String, nuptk: String) {
+        val url = "http://10.0.2.2/api_mondu/get_jam.php?id_kelas=$idKelas&hari=$hari&nuptk=$nuptk"
         val request = JsonArrayRequest(Request.Method.GET, url, null, { response ->
             jamList.clear()
             for (i in 0 until response.length()) {

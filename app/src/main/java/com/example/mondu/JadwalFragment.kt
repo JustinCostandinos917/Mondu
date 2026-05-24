@@ -14,6 +14,8 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONArray
 
 class JadwalFragment(private val hari: String) : Fragment() {
+
+    constructor() : this("")
     private lateinit var rvJadwal: RecyclerView
     private val listJadwal = ArrayList<Jadwal>() // Pastikan kamu punya data class Jadwal
 

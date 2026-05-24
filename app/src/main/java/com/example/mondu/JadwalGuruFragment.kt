@@ -1,59 +1,97 @@
 package com.example.mondu
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [JadwalGuruFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class JadwalGuruFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var rvJadwal: RecyclerView
+    private lateinit var adapter: JadwalGuruAdapter
+    private val listJadwal = ArrayList<Jadwal>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_jadwal_guru, container, false)
+        val view = inflater.inflate(R.layout.fragment_jadwal_guru, container, false)
+
+        rvJadwal = view.findViewById(R.id.rvJadwal)
+        rvJadwal.layoutManager = LinearLayoutManager(activity)
+
+        // PERBAIKAN UTAMA: Tempel adapter kosong di sini sejak awal biar Android tidak mengeluh!
+        adapter = JadwalGuruAdapter(listJadwal)
+        rvJadwal.adapter = adapter
+
+        val prefs = requireActivity().getSharedPreferences("MonduSession", Context.MODE_PRIVATE)
+        val nuptk = prefs.getString("nuptk", "") ?: ""
+
+        val sdf = SimpleDateFormat("EEEE", Locale("id", "ID"))
+        val hariIni = sdf.format(Calendar.getInstance().time)
+
+        if (nuptk.isNotEmpty()) {
+            bacaDataJadwal(nuptk, hariIni)
+        } else {
+            Toast.makeText(activity, "Sesi login tidak ditemukan!", Toast.LENGTH_SHORT).show()
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment JadwalGuruFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            JadwalGuruFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun bacaDataJadwal(nuptk: String, hari: String) {
+        val url = "http://10.0.2.2/api_mondu/get_jadwal.php?nuptk=$nuptk"
+
+        val requestQueue = Volley.newRequestQueue(activity)
+        val jsonArrayRequest = JsonArrayRequest(Request.Method.GET, url, null,
+            { response ->
+                try {
+                    // Buat list temporer untuk menampung hasil fetch terbaru
+                    val tempList = ArrayList<Jadwal>()
+
+                    for (i in 0 until response.length()) {
+                        val obj = response.getJSONObject(i)
+
+                        if (obj.has("error")) {
+                            Toast.makeText(activity, obj.getString("error"), Toast.LENGTH_LONG).show()
+                            return@JsonArrayRequest
+                        }
+
+                        val data = Jadwal(
+                            id_jadwal = obj.getString("id_jadwal"),
+                            jam_mulai = obj.getString("jam").substringBefore(" - "),
+                            jam_selesai = obj.getString("jam").substringAfter(" - "),
+                            nama_mapel = obj.getString("nama_mapel"),
+                            nama_kelas = obj.getString("nama_kelas"),
+                            hari = obj.getString("hari"),
+                            nama_guru = ""
+                        )
+                        tempList.add(data)
+                    }
+
+                    // PERBAIKAN KEDUA: Suntikkan data baru ke adapter yang sudah terpasang
+                    adapter.updateData(tempList)
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(activity, "Error parsing data: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
+            },
+            { error ->
+                Toast.makeText(activity, "Gagal terhubung ke server: ${error.message}", Toast.LENGTH_SHORT).show()
             }
+        )
+        requestQueue.add(jsonArrayRequest)
     }
 }
