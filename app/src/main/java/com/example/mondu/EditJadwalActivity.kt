@@ -15,29 +15,30 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.button.MaterialButton
 
-class AddJadwalActivity : AppCompatActivity() {
+class EditJadwalActivity : AppCompatActivity() {
+    private var idJadwal: String? = null
     private val mapelList = mutableListOf<Map<String, String>>()
     private val jamList = mutableListOf<Map<String, String>>()
-    // Variabel class agar bisa diakses di semua fungsi
-    private var idKelas: String? = null
-    private var hari: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_add_jadwal)
+        setContentView(R.layout.activity_edit_jadwal)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        idKelas = intent.getStringExtra("ID_KELAS")
-        hari = intent.getStringExtra("HARI") ?: ""
+        idJadwal = intent.getStringExtra("ID_JADWAL")
+
+        val idKelas = intent.getStringExtra("ID_KELAS")
+        val hari = intent.getStringExtra("HARI") ?: ""
 
         setupDropdownMapel()
         setupDropdownJam(idKelas, hari)
 
         findViewById<MaterialButton>(R.id.btnSimpan).setOnClickListener {
-            tambahDataKeServer()
+            updateDataKeServer()
         }
     }
 
@@ -50,8 +51,7 @@ class AddJadwalActivity : AppCompatActivity() {
                 mapelList.add(mapOf(
                     "id" to obj.getString("id_mapel"),
                     "nama" to obj.getString("nama_mapel"),
-                    "nama_guru" to obj.getString("nama_guru"),
-                    "nuptk" to obj.getString("nuptk")
+                    "nama_guru" to obj.getString("nama_guru")
                 ))
             }
             val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, mapelList.map { it["nama"] })
@@ -63,6 +63,8 @@ class AddJadwalActivity : AppCompatActivity() {
             dropdown.setOnItemClickListener { parent, _, position, _ ->
                 val selectedNama = parent.getItemAtPosition(position).toString()
                 val mapelTerpilih = mapelList.find { it["nama"] == selectedNama }
+
+                // Mengubah tulisan di TextView tvInfoGuru
                 tvGuru.text = "Guru: ${mapelTerpilih?.get("nama_guru") ?: "-"}"
             }
         }, { it.printStackTrace() })
@@ -86,13 +88,9 @@ class AddJadwalActivity : AppCompatActivity() {
         Volley.newRequestQueue(this).add(request)
     }
 
-    private fun tambahDataKeServer() {
-        // Ambil data yang dipilih user
+    private fun updateDataKeServer() {
         val selectedMapelNama = findViewById<AutoCompleteTextView>(R.id.dropdownMapel).text.toString()
         val selectedMapelId = mapelList.find { it["nama"] == selectedMapelNama }?.get("id")
-
-        val mapelTerpilih = mapelList.find { it["nama"] == selectedMapelNama }
-        val nuptkGuru = mapelTerpilih?.get("nuptk") ?: ""
 
         val selectedJamNama = findViewById<AutoCompleteTextView>(R.id.dropdownJam).text.toString()
         val selectedJamId = jamList.find { it["nama"] == selectedJamNama }?.get("id")
@@ -102,18 +100,16 @@ class AddJadwalActivity : AppCompatActivity() {
             return
         }
 
-        val url = "http://10.0.2.2/api_mondu/tambah_jadwal.php"
+        val url = "http://10.0.2.2/api_mondu/update_jadwal.php"
         val stringRequest = object : StringRequest(Method.POST, url, {
-            Toast.makeText(this, "Berhasil menambah jadwal", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Berhasil update jadwal", Toast.LENGTH_SHORT).show()
             finish()
-        }, { Toast.makeText(this, "Gagal: ${it.message}", Toast.LENGTH_SHORT).show() }) {
+        }, { Toast.makeText(this, "Gagal update: ${it.message}", Toast.LENGTH_SHORT).show() }) {
             override fun getParams(): Map<String, String> {
                 return mapOf(
-                    "id_kelas" to (idKelas ?: ""),
+                    "id_jadwal" to idJadwal!!,
                     "id_mapel" to selectedMapelId,
-                    "id_jam" to selectedJamId,
-                    "hari" to hari,
-                    "nuptk" to nuptkGuru
+                    "id_jam" to selectedJamId
                 )
             }
         }

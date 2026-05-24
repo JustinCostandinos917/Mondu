@@ -115,7 +115,7 @@ class AkademikFragment : Fragment() {
         // Tombol Tambah Jadwal
         view.findViewById<Button>(R.id.btnMenuTambahJadwal).setOnClickListener {
             bottomSheetDialog.dismiss()
-            val intent = Intent(context, AddJadwalActivity::class.java).apply {
+            val intent = Intent(context, JadwalActivity::class.java).apply {
                 putExtra("id_kelas", idKelas)
                 putExtra("nama_kelas", namaKelas)
             }

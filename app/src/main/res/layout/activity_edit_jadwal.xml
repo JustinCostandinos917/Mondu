@@ -12,14 +12,7 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Tambah Jadwal Baru"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
-
+        <!-- Dropdown Mata Pelajaran -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilMapel"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -35,6 +28,7 @@
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Keterangan Guru -->
         <TextView
             android:id="@+id/tvInfoGuru"
             android:layout_width="match_parent"
@@ -45,13 +39,14 @@
             android:textColor="#1E3A8A"
             android:textStyle="italic" />
 
+        <!-- Dropdown Jam/Sesi -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilJam"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:hint="Pilih Jam">
+            android:hint="Pilih Jam (Sesi 40 menit)">
 
             <AutoCompleteTextView
                 android:id="@+id/dropdownJam"
@@ -60,11 +55,12 @@
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Tombol Simpan -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSimpan"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:text="Simpan Jadwal"
+            android:text="Simpan Perubahan"
             android:textSize="16sp"
             app:backgroundTint="#1E3A8A"
             app:cornerRadius="8dp" />

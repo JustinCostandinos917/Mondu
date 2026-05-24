@@ -1,0 +1,2 @@
+Kelas: KLS001, Mapel: MPL003, Jam: 1, Hari: Selasa, NUPTK: 123456789003
+Kelas: KLS001, Mapel: MPL003, Jam: 1, Hari: Selasa, NUPTK: 123456789003
