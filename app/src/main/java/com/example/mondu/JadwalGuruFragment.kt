@@ -1,6 +1,7 @@
 package com.example.mondu
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +33,14 @@ class JadwalGuruFragment : Fragment() {
         rvJadwal.layoutManager = LinearLayoutManager(activity)
 
         // PERBAIKAN UTAMA: Tempel adapter kosong di sini sejak awal biar Android tidak mengeluh!
-        adapter = JadwalGuruAdapter(listJadwal)
+        adapter = JadwalGuruAdapter(listJadwal) { jadwal ->
+            val intent = Intent(requireContext(), InputNilaiActivity::class.java)
+            intent.putExtra("id_mapel", jadwal.id_mapel)
+            intent.putExtra("id_kelas", jadwal.id_kelas)
+            intent.putExtra("nama_kelas", jadwal.nama_kelas)
+            intent.putExtra("nama_mapel", jadwal.nama_mapel)
+            startActivity(intent)
+        }
         rvJadwal.adapter = adapter
 
         val prefs = requireActivity().getSharedPreferences("MonduSession", Context.MODE_PRIVATE)
@@ -70,6 +78,8 @@ class JadwalGuruFragment : Fragment() {
 
                         val data = Jadwal(
                             id_jadwal = obj.getString("id_jadwal"),
+                            id_mapel = obj.getString("id_mapel"), // Sesuaikan dengan field di JSON kamu
+                            id_kelas = obj.getString("id_kelas"),
                             jam_mulai = obj.getString("jam").substringBefore(" - "),
                             jam_selesai = obj.getString("jam").substringAfter(" - "),
                             nama_mapel = obj.getString("nama_mapel"),

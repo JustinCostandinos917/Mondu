@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/ic_circle_background_mondu"
+            android:layout_marginEnd="16dp">
+            <TextView
+                android:id="@+id/tvInisial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="S"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNamaSiswa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nama Siswa"
+                android:textSize="16sp"
+                android:textColor="#0F172A"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvNis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NIS: 12345678"
+                android:textSize="13sp"
+                android:textColor="#64748B" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_edit"
+            app:tint="#CBD5E1" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

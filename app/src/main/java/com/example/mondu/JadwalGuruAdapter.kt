@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class JadwalGuruAdapter(private val rawList: ArrayList<Jadwal>) :
+class JadwalGuruAdapter(private val rawList: ArrayList<Jadwal>, private val onItemClick: (Jadwal) -> Unit) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TYPE_HEADER = 0
@@ -64,6 +64,9 @@ class JadwalGuruAdapter(private val rawList: ArrayList<Jadwal>) :
         } else if (holder is ItemViewHolder) {
             holder.tvJam.text = "${item.jam_mulai} - ${item.jam_selesai}"
             holder.tvMapelKelas.text = "${item.nama_mapel} - ${item.nama_kelas}"
+            holder.itemView.setOnClickListener {
+                onItemClick(item)
+            }
         }
     }
 

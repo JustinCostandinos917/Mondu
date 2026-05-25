@@ -1,59 +1,73 @@
 package com.example.mondu
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [InputNilaiFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InputNilaiFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var rvKelasMapel: RecyclerView
+    private lateinit var adapter: KelasMapelAdapter // Kamu perlu buat adapter ini
+    private val listKelasMapel = ArrayList<KelasMapel>() // Sesuaikan dengan data class kamu
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_input_nilai, container, false)
+        val view = inflater.inflate(R.layout.fragment_input_nilai, container, false)
+
+        rvKelasMapel = view.findViewById(R.id.rvKelasMapel)
+        rvKelasMapel.layoutManager = LinearLayoutManager(activity)
+
+        // Adapter untuk list kelas/mapel
+        adapter = KelasMapelAdapter(listKelasMapel) { data ->
+            // KETIKA DIPENCET -> PINDAH KE ACTIVITY
+            val intent = Intent(requireContext(), InputNilaiActivity::class.java)
+            intent.putExtra("id_mapel", data.id_mapel)
+            intent.putExtra("id_kelas", data.id_kelas)
+            intent.putExtra("nama_kelas", data.nama_kelas)
+            intent.putExtra("nama_mapel", data.nama_mapel)
+            startActivity(intent)
+        }
+        rvKelasMapel.adapter = adapter
+
+        // Fetch data kelas/mapel yang diampu
+        val prefs = requireActivity().getSharedPreferences("MonduSession", Context.MODE_PRIVATE)
+        val nuptk = prefs.getString("nuptk", "") ?: ""
+        bacaDataKelasMapel(nuptk)
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment InputNilaiFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InputNilaiFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun bacaDataKelasMapel(nuptk: String) {
+        val url = "http://10.0.2.2/api_mondu/get_kelas_mapel.php?nuptk=$nuptk"
+        val requestQueue = Volley.newRequestQueue(requireContext())
+        val jsonArrayRequest = JsonArrayRequest(Request.Method.GET, url, null,
+            { response ->
+                listKelasMapel.clear()
+                for (i in 0 until response.length()) {
+                    val obj = response.getJSONObject(i)
+                    listKelasMapel.add(KelasMapel(
+                        id_mapel = obj.getString("id_mapel"),
+                        id_kelas = obj.getString("id_kelas"),
+                        nama_mapel = obj.getString("nama_mapel"),
+                        nama_kelas = obj.getString("nama_kelas")
+                    ))
                 }
-            }
+                adapter.notifyDataSetChanged()
+            },
+            { error -> Toast.makeText(context, "Gagal: ${error.message}", Toast.LENGTH_SHORT).show() }
+        )
+        requestQueue.add(jsonArrayRequest)
     }
 }
