@@ -9,8 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
+import org.json.JSONObject
 
 class LogAktivitasFragment : Fragment() {
     private lateinit var rvLogs: RecyclerView
@@ -34,8 +38,8 @@ class LogAktivitasFragment : Fragment() {
 
         rvLogs.layoutManager = LinearLayoutManager(context)
 
-        // Mock Data for Logs
-        loadMockLogs()
+        // Ambil Data dari API
+        loadLogsFromApi()
 
         logAdapter = LogAdapter(logList) { log ->
             showLogDetail(log)
@@ -58,15 +62,57 @@ class LogAktivitasFragment : Fragment() {
         return view
     }
 
+    private fun loadLogsFromApi() {
+        val sharedPref = requireContext().getSharedPreferences("MonduSession", android.content.Context.MODE_PRIVATE)
+        val idUser = sharedPref.getString("id_user", "") ?: ""
+        val role = sharedPref.getString("role", "") ?: ""
+
+        // Jika siswa, hanya ambil log miliknya. Jika admin, ambil semua.
+        val url = if (role.lowercase() == "siswa") {
+            "http://10.0.2.2/api_mondu/get_logs.php?id_user=$idUser"
+        } else {
+            "http://10.0.2.2/api_mondu/get_logs.php"
+        }
+
+        val request = StringRequest(Request.Method.GET, url,
+            { response ->
+                try {
+                    val json = JSONObject(response)
+                    if (json.getString("status") == "success") {
+                        val data = json.getJSONArray("data")
+                        fullLogList.clear()
+                        for (i in 0 until data.length()) {
+                            val obj = data.getJSONObject(i)
+                            fullLogList.add(
+                                LogActivity(
+                                    obj.getString("id_log"),
+                                    obj.getString("nama_user"),
+                                    obj.getString("role"),
+                                    obj.getString("aksi"),
+                                    obj.getString("waktu")
+                                )
+                            )
+                        }
+                        applyFilterAndSearch()
+                    }
+                } catch (e: Exception) {
+                    loadMockLogs()
+                }
+            },
+            { loadMockLogs() }
+        )
+        Volley.newRequestQueue(requireContext()).add(request)
+    }
+
     private fun loadMockLogs() {
         fullLogList.clear()
-        fullLogList.add(LogActivity("1", "Admin Justin", "admin", "Menambahkan Guru Baru: Budi", "09:00"))
-        fullLogList.add(LogActivity("2", "Guru Budi", "guru", "Menginput nilai Matematika Kelas 10", "09:15"))
-        fullLogList.add(LogActivity("3", "Siswa Andi", "siswa", "Melakukan absensi masuk", "09:30"))
-        fullLogList.add(LogActivity("4", "Admin Justin", "admin", "Menghapus user: Test Account", "10:00"))
-        fullLogList.add(LogActivity("5", "Guru Siti", "guru", "Mengubah jadwal Seni Budaya", "10:45"))
+        fullLogList.add(LogActivity("1", "Sistem", "admin", "Belum ada aktivitas tercatat", "Baru saja"))
         
+        logList.clear()
         logList.addAll(fullLogList)
+        if (::logAdapter.isInitialized) {
+            logAdapter.updateData(logList)
+        }
     }
 
     private fun showFilterMenu(view: View) {
