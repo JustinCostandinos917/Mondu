@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"
+    android:background="@color/bg_main"
     android:orientation="vertical"
     tools:context=".AkademikFragment">
 
-    <!-- Header Biru (Sinkron dengan Arsip) -->
+    <!-- Header Biru Mondu -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1E3A8A"
+        android:background="@color/mondu_blue_primary"
         android:paddingHorizontal="24dp"
         android:paddingVertical="20dp">
 
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Data Akademik"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Daftar Kelas &amp; Wali Kelas"
-                android:textColor="#CBD5E1"
+                android:textColor="@color/text_light"
                 android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     app:strokeWidth="1dp"
-    app:strokeColor="#F1F5F9"
-    app:cardBackgroundColor="@android:color/white"
+    app:strokeColor="@color/border_color"
+    app:cardBackgroundColor="@color/white"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground">
@@ -21,28 +20,35 @@
         android:padding="16dp"
         android:gravity="center_vertical">
 
-        <!-- Icon List (Sesuai Gambar) -->
-        <ImageView
+        <!-- Icon List -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="42dp"
             android:layout_height="42dp"
-            android:src="@android:drawable/ic_menu_sort_by_size"
-            android:contentDescription="Icon Kelas"
-            app:tint="#1E3A8A"
-            android:layout_marginEnd="16dp"/>
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/mondu_blue_light">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@android:drawable/ic_menu_sort_by_size"
+                android:padding="8dp"
+                app:tint="@color/mondu_blue_primary" />
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginStart="16dp"
             android:orientation="vertical">
 
-            <!-- Nama Kelas (cth: 7A) -->
+            <!-- Nama Kelas -->
             <TextView
                 android:id="@+id/tvNamaKelasItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="7A"
-                android:textColor="#1E3A8A"
+                android:textColor="@color/mondu_blue_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -51,18 +57,18 @@
                 android:id="@+id/tvWaliKelasItem"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wali Kelas: Budi Setiawan, S.Pd"
-                android:textColor="#64748B"
+                android:text="Wali Kelas: Budi Setiawan"
+                android:textColor="@color/text_muted"
                 android:textSize="13sp"
                 android:layout_marginTop="2dp" />
         </LinearLayout>
 
-        <!-- Panah Indikator Kecil (Sesuai Gambar) -->
+        <!-- Panah Indikator -->
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@android:drawable/ic_media_play"
-            app:tint="#CBD5E1"
+            app:tint="@color/text_light"
             android:alpha="0.7"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

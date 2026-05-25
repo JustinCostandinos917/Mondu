@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class LogAdapter(
-    private var logList: List<LogActivity>
+    private var logList: List<LogActivity>,
+    private val onItemClick: (LogActivity) -> Unit
 ) : RecyclerView.Adapter<LogAdapter.LogViewHolder>() {
 
     class LogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val cvLogIcon: com.google.android.material.card.MaterialCardView = itemView.findViewById(R.id.cvLogIcon)
         val ivLogIcon: ImageView = itemView.findViewById(R.id.ivLogIcon)
         val tvLogTitle: TextView = itemView.findViewById(R.id.tvLogTitle)
         val tvLogDescription: TextView = itemView.findViewById(R.id.tvLogDescription)
@@ -29,12 +31,19 @@ class LogAdapter(
         holder.tvLogDescription.text = "${log.nama_user} • ${log.role}"
         holder.tvLogTime.text = log.waktu
 
-        // Set icon based on action or role
-        when (log.role.lowercase()) {
-            "admin" -> holder.ivLogIcon.setImageResource(android.R.drawable.ic_lock_power_off)
-            "guru" -> holder.ivLogIcon.setImageResource(android.R.drawable.ic_menu_edit)
+        // Mengembalikan ke warna Biru Mondu (Warna Sebelumnya)
+        holder.cvLogIcon.setCardBackgroundColor(android.graphics.Color.parseColor("#EFF6FF")) // Biru sangat muda
+        holder.ivLogIcon.setColorFilter(android.graphics.Color.parseColor("#1E3A8A")) // Biru Tua Mondu
+
+        // Ikon tetap dinamis sesuai aksi agar informatif
+        when {
+            log.aksi.contains("Tambah", true) -> holder.ivLogIcon.setImageResource(android.R.drawable.ic_menu_add)
+            log.aksi.contains("Hapus", true) -> holder.ivLogIcon.setImageResource(android.R.drawable.ic_menu_delete)
+            log.aksi.contains("Ubah", true) || log.aksi.contains("Edit", true) -> holder.ivLogIcon.setImageResource(android.R.drawable.ic_menu_edit)
             else -> holder.ivLogIcon.setImageResource(android.R.drawable.ic_menu_info_details)
         }
+
+        holder.itemView.setOnClickListener { onItemClick(log) }
     }
 
     override fun getItemCount(): Int = logList.size

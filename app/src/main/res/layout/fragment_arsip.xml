@@ -4,21 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F8FAFC">
+    android:background="@color/bg_main">
 
-    <!-- Header Section -->
+    <!-- Header Section Mondu Blue -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1E3A8A"
-        android:padding="20dp">
+        android:background="@color/mondu_blue_primary"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="20dp">
 
         <TextView
             android:id="@+id/tvTitleArsip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Arsip Nilai Siswa"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -26,9 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitleArsip"
+            android:layout_marginTop="2dp"
             android:text="Pilih Tahun Akademik"
-            android:textColor="#CBD5E1"
-            android:textSize="14sp" />
+            android:textColor="@color/text_light"
+            android:textSize="13sp" />
     </RelativeLayout>
 
     <ScrollView
@@ -41,16 +43,20 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Sample Tahun Akademik 2025/2026 -->
+            <!-- Card Tahun Ajaran dengan Tema Biru -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTahun2026"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="1dp"
-                app:strokeColor="#E2E8F0">
+                app:strokeColor="@color/border_color"
+                app:cardBackgroundColor="@color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -59,11 +65,19 @@
                     android:padding="16dp"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_myplaces"
-                        app:tint="#1E3A8A" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/mondu_blue_light">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            android:padding="8dp"
+                            app:tint="@color/mondu_blue_primary" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -76,7 +90,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tahun Ajaran 2025/2026"
-                            android:textColor="#1E293B"
+                            android:textColor="@color/mondu_blue_primary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -84,29 +98,33 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Database Semester Ganjil &amp; Genap"
-                            android:textColor="#64748B"
+                            android:textColor="@color/text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/arrow_down_float"
-                        android:rotation="-90"
-                        app:tint="#94A3B8" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="@color/text_light"
+                        android:alpha="0.7"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Sample Tahun Akademik 2024/2025 -->
+            <!-- Card Tahun Ajaran Lainnya (Samakan polanya) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardTahun2025"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeWidth="1dp"
-                app:strokeColor="#E2E8F0">
+                app:strokeColor="@color/border_color"
+                app:cardBackgroundColor="@color/white"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -115,11 +133,19 @@
                     android:padding="16dp"
                     android:gravity="center_vertical">
 
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@android:drawable/ic_menu_myplaces"
-                        app:tint="#1E3A8A" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="@color/mondu_blue_light">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@android:drawable/ic_menu_myplaces"
+                            android:padding="8dp"
+                            app:tint="@color/mondu_blue_primary" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -132,7 +158,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Tahun Ajaran 2024/2025"
-                            android:textColor="#1E293B"
+                            android:textColor="@color/mondu_blue_primary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -140,16 +166,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Arsip Data Lulusan"
-                            android:textColor="#64748B"
+                            android:textColor="@color/text_muted"
                             android:textSize="13sp" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/arrow_down_float"
-                        android:rotation="-90"
-                        app:tint="#94A3B8" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="@color/text_light"
+                        android:alpha="0.7"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

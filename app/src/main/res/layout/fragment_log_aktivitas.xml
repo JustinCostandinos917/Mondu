@@ -1,89 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FAFC"
+    android:background="@color/bg_main"
+    android:orientation="vertical"
     tools:context=".LogAktivitasFragment">
 
+    <!-- Header Biru (Sinkron dengan Arsip & Akademik) -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:background="@color/mondu_blue_primary"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="20dp">
 
-        <!-- Header: Judul -->
-        <TextView
-            android:id="@+id/tvTitleLogs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Log Aktivitas"
-            android:textColor="#1E3A8A"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <!-- Search Bar -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/searchLayoutLogs"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitleLogs"
-            android:layout_marginBottom="8dp"
-            app:boxCornerRadiusBottomEnd="12dp"
-            app:boxCornerRadiusBottomStart="12dp"
-            app:boxCornerRadiusTopEnd="12dp"
-            app:boxCornerRadiusTopStart="12dp"
-            app:hintEnabled="false"
-            app:startIconDrawable="@android:drawable/ic_menu_search">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSearchLogs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Cari aktivitas..."
-                android:inputType="text"
-                android:padding="12dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Filter Button below Search Bar -->
         <LinearLayout
-            android:id="@+id/filterLayoutLogs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/searchLayoutLogs"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="8dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Filter"
-                android:textColor="#1E3A8A"
+                android:text="Log Aktivitas"
+                android:textColor="@color/white"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageButton
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Pantau seluruh riwayat sistem"
+                android:textColor="@color/text_light"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Search Bar Modern -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/border_color">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="12dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_menu_search"
+                        app:tint="@color/text_muted" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSearchLogs"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:hint="Cari aktivitas..."
+                        android:paddingStart="12dp"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/btnFilterLogs"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Filter"
-                android:src="@drawable/ic_filter_tune"
-                app:tint="#1E3A8A" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/divider_color"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="12dp"
+                    android:src="@android:drawable/ic_menu_sort_alphabetically"
+                    app:tint="@color/mondu_blue_primary" />
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- List Data Log -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvLogs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/filterLayoutLogs"
             android:clipToPadding="false"
-            android:paddingBottom="16dp" />
-
-    </RelativeLayout>
-</FrameLayout>
+            tools:listitem="@layout/item_log" />
+    </LinearLayout>
+</LinearLayout>

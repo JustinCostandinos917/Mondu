@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.textfield.TextInputEditText
 
 class LogAktivitasFragment : Fragment() {
     private lateinit var rvLogs: RecyclerView
     private lateinit var etSearchLogs: TextInputEditText
-    private lateinit var btnFilterLogs: android.widget.ImageButton
+    private lateinit var btnFilterLogs: MaterialCardView
     private lateinit var logAdapter: LogAdapter
     private var logList = ArrayList<LogActivity>()
     private var fullLogList = ArrayList<LogActivity>()
@@ -36,7 +37,9 @@ class LogAktivitasFragment : Fragment() {
         // Mock Data for Logs
         loadMockLogs()
 
-        logAdapter = LogAdapter(logList)
+        logAdapter = LogAdapter(logList) { log ->
+            showLogDetail(log)
+        }
         rvLogs.adapter = logAdapter
 
         // Setup Filter
@@ -106,5 +109,26 @@ class LogAktivitasFragment : Fragment() {
 
         logList.addAll(finalFiltered)
         logAdapter.updateData(logList)
+    }
+
+    private fun showLogDetail(log: LogActivity) {
+        val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.layout_detail_log, null)
+
+        val tvDetailAksi: android.widget.TextView = view.findViewById(R.id.tvDetailAksi)
+        val tvDetailUser: android.widget.TextView = view.findViewById(R.id.tvDetailUser)
+        val tvDetailWaktu: android.widget.TextView = view.findViewById(R.id.tvDetailWaktu)
+        val btnTutupDetail: com.google.android.material.button.MaterialButton = view.findViewById(R.id.btnTutupDetail)
+
+        tvDetailAksi.text = log.aksi
+        tvDetailUser.text = "${log.nama_user} (${log.role})"
+        tvDetailWaktu.text = "Hari ini, ${log.waktu}"
+
+        btnTutupDetail.setOnClickListener {
+            bottomSheet.dismiss()
+        }
+
+        bottomSheet.setContentView(view)
+        bottomSheet.show()
     }
 }
