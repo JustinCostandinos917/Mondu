@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_jadwal"
+        android:icon="@drawable/ic_schedule"
+        android:title="Jadwal" />
+    <item
+        android:id="@+id/nav_input_nilai"
+        android:icon="@drawable/ic_input_nilai"
+        android:title="Nilai" />
+    <item
         android:id="@+id/nav_wali_kelas"
-        android:icon="@drawable/ic_class"
-        android:title="Kelas" />
-    <item
-        android:id="@+id/nav_wali_kalender"
-        android:icon="@drawable/ic_calendar"
-        android:title="Agenda" />
-    <item
-        android:id="@+id/nav_wali_profil"
-        android:icon="@drawable/ic_profile"
-        android:title="Profil" />
+        android:icon="@drawable/ic_supervisor_account"
+        android:title="Nilai" />
 </menu>

@@ -3,6 +3,7 @@ package com.example.mondu
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -49,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
             val stringRequest = object : StringRequest(Request.Method.POST, urlLogin,
                 Response.Listener { response ->
                     try {
+                        Log.d("RESPON_SERVER", response);
                         val jsonObject = JSONObject(response)
                         val status = jsonObject.getString("status")
                         val message = jsonObject.getString("message")
@@ -58,6 +60,8 @@ class LoginActivity : AppCompatActivity() {
                             val idUser = dataUser.getString("id_user")
                             val role = dataUser.getString("role")
                             val namaUser = dataUser.getString("nama_lengkap")
+                            val isWali = dataUser.optBoolean("is_walikelas")
+                            val nuptk = dataUser.optString("nuptk", "")
 
                             Toast.makeText(this, "Selamat datang, $namaUser!", Toast.LENGTH_SHORT).show()
 
@@ -69,6 +73,8 @@ class LoginActivity : AppCompatActivity() {
                             editor.putString("username", username)
                             editor.putString("nama_lengkap", namaUser)
                             editor.putString("role", role)
+                            editor.putBoolean("is_walikelas", isWali)
+                            editor.putString("nuptk", nuptk)
 
                             if (dataUser.has("id_kelas")) {
                                 editor.putString("id_kelas", dataUser.getString("id_kelas"))
@@ -82,9 +88,6 @@ class LoginActivity : AppCompatActivity() {
                             } else if (role == "Guru") {
                                 // Arahkan ke halaman input pengumuman atau dashboard guru
                                 startActivity(Intent(this, DashboardGuruActivity::class.java))
-                            } else if (role == "Wali Kelas") {
-                                // Arahkan ke halaman input pengumuman atau dashboard guru
-                                startActivity(Intent(this, DashboardWaliKelasActivity::class.java))
                             } else if (role == "Admin") {
                                 // Arahkan ke halaman input pengumuman atau dashboard guru
                                 startActivity(Intent(this, DashboardAdminActivity::class.java))

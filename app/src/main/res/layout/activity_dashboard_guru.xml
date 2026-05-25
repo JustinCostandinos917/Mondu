@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Portal Siswa"
+                android:text="Selamat Datang"
                 android:textColor="#CBD5E1"
                 android:textSize="14sp"/>
             <TextView
@@ -60,7 +60,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -74,15 +74,14 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             app:labelVisibilityMode="labeled"
             app:itemIconSize="24dp"
             app:itemIconTint="@color/nav_item_color"
             app:itemTextColor="@color/nav_item_color"
             app:itemRippleColor="#EFF6FF"
-            app:elevation="0dp"
-            app:menu="@menu/menu_navigation_guru" />
+            app:elevation="0dp" />
 
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>

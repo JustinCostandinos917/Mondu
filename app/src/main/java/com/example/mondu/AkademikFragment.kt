@@ -84,6 +84,7 @@ class AkademikFragment : Fragment() {
                 h.tvNamaKelas.text = item["nama_kelas"]
                 h.tvWaliKelas.text = "Wali Kelas: ${item["nama_wali"]}"
 
+                // Aksi klik item kelas langsung memunculkan Bottom Sheet Dialog
                 h.itemView.setOnClickListener {
                     tampilkanOpsiBottomSheet(item["id_kelas"]!!, item["nama_kelas"]!!)
                 }
@@ -114,7 +115,7 @@ class AkademikFragment : Fragment() {
         // Tombol Tambah Jadwal
         view.findViewById<Button>(R.id.btnMenuTambahJadwal).setOnClickListener {
             bottomSheetDialog.dismiss()
-            val intent = Intent(context,  AddJadwalActivity::class.java).apply {
+            val intent = Intent(context, JadwalActivity::class.java).apply {
                 putExtra("id_kelas", idKelas)
                 putExtra("nama_kelas", namaKelas)
             }
