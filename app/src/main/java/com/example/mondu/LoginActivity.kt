@@ -62,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
                             val namaUser = dataUser.getString("nama_lengkap")
                             val isWali = dataUser.optBoolean("is_walikelas")
                             val nuptk = dataUser.optString("nuptk", "")
+                            val isEskul = dataUser.optBoolean("is_pembina_eskul", false)
 
                             Toast.makeText(this, "Selamat datang, $namaUser!", Toast.LENGTH_SHORT).show()
 
@@ -75,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
                             editor.putString("role", role)
                             editor.putBoolean("is_walikelas", isWali)
                             editor.putString("nuptk", nuptk)
+                            editor.putBoolean("is_eskul", isEskul)
 
                             if (dataUser.has("id_kelas")) {
                                 editor.putString("id_kelas", dataUser.getString("id_kelas"))

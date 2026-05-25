@@ -46,13 +46,15 @@ class JadwalFragment(private val hari: String) : Fragment() {
             listJadwal.clear()
             for (i in 0 until jsonArray.length()) {
                 val obj = jsonArray.getJSONObject(i)
-                listJadwal.add(Jadwal(
-                    obj.getString("id_jadwal"),
-                    obj.getString("jam_mulai"),
-                    obj.getString("jam_selesai"),
-                    obj.getString("nama_mapel"),
-                    obj.getString("nama_guru")
-                ))
+                val itemJadwal = Jadwal(
+                    id_jadwal = obj.getString("id_jadwal"),
+                    jam_mulai = obj.getString("jam_mulai"),
+                    jam_selesai = obj.getString("jam_selesai"),
+                    nama_mapel = obj.getString("nama_mapel"),
+                    nama_guru = obj.getString("nama_guru")
+                    // Sisanya akan terisi nilai default "" secara otomatis
+                )
+                listJadwal.add(itemJadwal)
             }
 
             // PERBAIKAN DI SINI: Masukkan 'this' sebagai listener

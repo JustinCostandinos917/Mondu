@@ -61,16 +61,11 @@ class JadwalSiswaFragment : Fragment() {
     private fun loadJadwal() {
         val sharedPref = requireContext().getSharedPreferences("MonduSession", Context.MODE_PRIVATE)
         val idUser = sharedPref.getString("id_user", "") ?: ""
-        val idKelasPref = sharedPref.getString("id_kelas", "") ?: ""
 
         pbJadwal.visibility = View.VISIBLE
         
         // Use id_user if id_kelas is not in SharedPreferences yet
-        val url = if (idKelasPref.isNotEmpty()) {
-            "http://10.0.2.2/api_mondu/get_jadwal_siswa.php?id_kelas=$idKelasPref"
-        } else {
-            "http://10.0.2.2/api_mondu/get_jadwal_siswa.php?id_user=$idUser"
-        }
+        val url = "http://10.0.2.2/api_mondu/get_jadwal_siswa.php?id_user=$idUser"
 
         val stringRequest = StringRequest(Request.Method.GET, url,
             { response ->
@@ -83,6 +78,9 @@ class JadwalSiswaFragment : Fragment() {
                         listJadwal.clear()
                         for (i in 0 until jsonArray.length()) {
                             val item = jsonArray.getJSONObject(i)
+                            val obj = item
+                            val hariData = obj.getString("hari").trim() // .trim() membersihkan spasi tersembunyi
+                            Log.d("DEBUG_DATA_HARI", "Hari ditemukan: '$hariData'")
                             listJadwal.add(
                                 JadwalSiswa(
                                     item.getString("id_jadwal"),
@@ -101,7 +99,9 @@ class JadwalSiswaFragment : Fragment() {
                             tvEmpty.visibility = View.VISIBLE
                         } else {
                             tvEmpty.visibility = View.GONE
-                            rvJadwal.adapter = JadwalSiswaAdapter(listJadwal)
+                            val urutanHari = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
+                            val sortedList = ArrayList(listJadwal.sortedBy { urutanHari.indexOf(it.hari) })
+                            rvJadwal.adapter = JadwalSiswaAdapter(sortedList)
                         }
                     } else {
                         tvEmpty.text = jsonObject.getString("message")
@@ -118,7 +118,6 @@ class JadwalSiswaFragment : Fragment() {
                 val errorMessage = error.networkResponse?.let {
                     "Error ${it.statusCode}: ${String(it.data)}"
                 } ?: error.message ?: "Koneksi bermasalah."
-                Log.e("JadwalSiswa", "Error connection: $errorMessage")
                 
                 // Jika koneksi gagal (seperti 404), tampilkan data contoh (mock data)
                 loadMockData()

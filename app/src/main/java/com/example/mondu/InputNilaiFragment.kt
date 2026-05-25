@@ -32,7 +32,7 @@ class InputNilaiFragment : Fragment() {
         // Adapter untuk list kelas/mapel
         adapter = KelasMapelAdapter(listKelasMapel) { data ->
             // KETIKA DIPENCET -> PINDAH KE ACTIVITY
-            val intent = Intent(requireContext(), InputNilaiActivity::class.java)
+            val intent = Intent(requireContext(), InputNilaiAbsenActivity::class.java)
             intent.putExtra("id_mapel", data.id_mapel)
             intent.putExtra("id_kelas", data.id_kelas)
             intent.putExtra("nama_kelas", data.nama_kelas)

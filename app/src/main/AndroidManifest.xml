@@ -15,7 +15,7 @@
         android:theme="@style/Theme.Mondu"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".InputNilaiActivity"
+            android:name=".InputNilaiAbsenActivity"
             android:exported="false" />
         <activity
             android:name=".EditJadwalActivity"

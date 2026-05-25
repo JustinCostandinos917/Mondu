@@ -34,7 +34,7 @@ class JadwalGuruFragment : Fragment() {
 
         // PERBAIKAN UTAMA: Tempel adapter kosong di sini sejak awal biar Android tidak mengeluh!
         adapter = JadwalGuruAdapter(listJadwal) { jadwal ->
-            val intent = Intent(requireContext(), InputNilaiActivity::class.java)
+            val intent = Intent(requireContext(), InputNilaiAbsenActivity::class.java)
             intent.putExtra("id_mapel", jadwal.id_mapel)
             intent.putExtra("id_kelas", jadwal.id_kelas)
             intent.putExtra("nama_kelas", jadwal.nama_kelas)

@@ -1,5 +1,6 @@
 package com.example.mondu
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,7 @@ class JadwalAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listJadwal[position]
+        Log.d("DEBUG_DATA", "Jam: ${item.jam_mulai} | Mapel: ${item.nama_mapel}")
         // Mengisi data ke TextView
         holder.tvJam.text = "${item.jam_mulai.substring(0,5)} - ${item.jam_selesai.substring(0,5)}"
         holder.tvMapel.text = item.nama_mapel

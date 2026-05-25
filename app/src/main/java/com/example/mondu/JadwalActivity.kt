@@ -33,6 +33,7 @@ class JadwalActivity : AppCompatActivity() {
 
         // Setup Tab
         val hariList = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat")
+        val fragments = hariList.map { hari -> JadwalFragment(hari) }
         fabTambah.setOnClickListener {
             // 1. Ambil posisi tab yang sedang aktif
             val currentPosition = viewPager.currentItem
@@ -44,7 +45,7 @@ class JadwalActivity : AppCompatActivity() {
             intent.putExtra("HARI", hariAktif)
             startActivity(intent)
         }
-        viewPager.adapter = ViewPagerAdapter(this, hariList)
+        viewPager.adapter = ViewPagerAdapter(this, fragments)
 
         TabLayoutMediator(tabLayout, viewPager) { tab, pos ->
             tab.text = hariList[pos]
