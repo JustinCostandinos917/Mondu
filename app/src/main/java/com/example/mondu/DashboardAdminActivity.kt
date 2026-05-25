@@ -25,16 +25,6 @@ class DashboardAdminActivity : AppCompatActivity() {
             insets
         }
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        val btnLogout = findViewById<MaterialCardView>(R.id.btnLogout)
-        val tvUserName = findViewById<TextView>(R.id.tvUserNameDashboard)
-
-        val sharedPref = getSharedPreferences("MonduSession", Context.MODE_PRIVATE)
-        val namaLengkap = sharedPref.getString("nama_lengkap", "Admin")
-        tvUserName.text = namaLengkap
-
-        btnLogout.setOnClickListener {
-            showLogoutDialog()
-        }
 
         if (savedInstanceState == null) {
             bukaFragment(DashboardAdminFragment())
