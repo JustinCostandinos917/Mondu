@@ -4,334 +4,448 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F0F2F5"
+    android:background="#F8FAFC"
     tools:context=".DashboardAdminFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dashboard Admin"
-            android:textColor="#1E293B"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="Monitor aktivitas dan data aplikasi Mondu"
-            android:textColor="#64748B"
-            android:textSize="14sp" />
-
-        <!-- Stats Chart Section -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- Header Profil Terdekorasi -->
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E2E8F0">
+            android:layout_height="200dp"
+            android:background="#1E3A8A">
+
+            <!-- Dekorasi Lingkaran Latar Belakang -->
+            <View
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-50dp"
+                android:layout_marginEnd="-50dp"
+                android:alpha="0.1"
+                android:background="@drawable/ic_launcher_background" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:orientation="horizontal"
+                android:padding="24dp"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Avatar Profil Melingkar -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    app:cardCornerRadius="35dp"
+                    app:cardElevation="6dp"
+                    app:strokeColor="#FFFFFF"
+                    app:strokeWidth="2dp">
+
+                    <ImageView
+                        android:id="@+id/ivProfilePicture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_profile"
+                        android:padding="12dp"
+                        android:background="#F1F5F9"
+                        app:tint="#1E3A8A" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Statistik Data"
-                    android:textColor="#1E293B"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="16dp"/>
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:orientation="vertical">
 
-                <com.github.mikephil.charting.charts.PieChart
-                    android:id="@+id/pieChartStats"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
-
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:columnCount="2"
-                    android:rowCount="2"
-                    android:alignmentMode="alignMargins"
-                    android:columnOrderPreserved="false">
-
-                    <!-- Guru Stat -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
-                        app:strokeWidth="0dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Guru"
-                                android:textSize="12sp"
-                                android:textColor="#64748B" />
-                            <TextView
-                                android:id="@+id/tvTotalGuru"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="#4338CA" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
+                        android:text="Selamat Datang,"
+                        android:textColor="#CBD5E1"
+                        android:textSize="14sp" />
 
-                    <!-- Siswa Stat -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
+                    <TextView
+                        android:id="@+id/tvUserNameDashboard"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
-                        app:strokeWidth="0dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Siswa"
-                                android:textSize="12sp"
-                                android:textColor="#64748B" />
-                            <TextView
-                                android:id="@+id/tvTotalSiswa"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="#059669" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
+                        android:text="Admin Mondu"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-                    <!-- Kelas Stat -->
+                    <!-- Badge Role -->
                     <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
-                        app:strokeWidth="0dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        android:layout_marginTop="4dp"
+                        app:cardBackgroundColor="#3B82F6"
+                        app:cardCornerRadius="4dp"
+                        app:cardElevation="0dp">
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kelas"
-                                android:textSize="12sp"
-                                android:textColor="#64748B" />
-                            <TextView
-                                android:id="@+id/tvTotalKelas"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="#D97706" />
-                        </LinearLayout>
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"
+                            android:text="ADMINISTRATOR"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
-                    <!-- Total Users Stat -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="2dp"
-                        app:strokeWidth="0dp">
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Total User"
-                                android:textSize="12sp"
-                                android:textColor="#64748B" />
-                            <TextView
-                                android:id="@+id/tvTotalUsers"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textSize="20sp"
-                                android:textStyle="bold"
-                                android:textColor="#1E293B" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
+                <!-- Tombol Logout yang Lebih Rapi -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btnLogout"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="#E11D48"
+                    app:cardElevation="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_logout"
+                        app:tint="#FFFFFF" />
+                </com.google.android.material.card.MaterialCardView>
 
-                </GridLayout>
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="12dp"
-            android:text="Aktivitas Terbaru"
-            android:textColor="#1E293B"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Mock Log Aktivitas Section -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- Konten Dashboard -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E2E8F0">
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_marginTop="-30dp">
 
-            <LinearLayout
+            <!-- Card Statistik Utama -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
 
-                <!-- Item Log 1 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@android:drawable/ic_menu_add"
-                        app:tint="#4338CA" />
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="User Baru Ditambahkan"
-                            android:textColor="#1E293B"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Admin telah menambah akun Guru baru"
-                            android:textColor="#64748B"
-                            android:textSize="12sp" />
-                    </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Baru saja"
-                        android:textColor="#94A3B8"
-                        android:textSize="11sp" />
+                        android:text="Ringkasan Statistik"
+                        android:textColor="#1E293B"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/pieChartStats"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp" />
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:columnCount="2"
+                        android:alignmentMode="alignMargins">
+
+                        <!-- Guru Stat -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="6dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardBackgroundColor="#F8FAFC"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E2E8F0"
+                            app:strokeWidth="1dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Guru"
+                                    android:textSize="12sp"
+                                    android:textColor="#64748B" />
+                                <TextView
+                                    android:id="@+id/tvTotalGuru"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#1E3A8A" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Siswa Stat -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="6dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardBackgroundColor="#F8FAFC"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E2E8F0"
+                            app:strokeWidth="1dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Siswa"
+                                    android:textSize="12sp"
+                                    android:textColor="#64748B" />
+                                <TextView
+                                    android:id="@+id/tvTotalSiswa"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#059669" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Kelas Stat -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="6dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardBackgroundColor="#F8FAFC"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E2E8F0"
+                            app:strokeWidth="1dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kelas"
+                                    android:textSize="12sp"
+                                    android:textColor="#64748B" />
+                                <TextView
+                                    android:id="@+id/tvTotalKelas"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#D97706" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Total Users Stat -->
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="6dp"
+                            app:cardCornerRadius="14dp"
+                            app:cardBackgroundColor="#F8FAFC"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E2E8F0"
+                            app:strokeWidth="1dp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="12dp"
+                                android:gravity="center">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Total User"
+                                    android:textSize="12sp"
+                                    android:textColor="#64748B" />
+                                <TextView
+                                    android:id="@+id/tvTotalUsers"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="22sp"
+                                    android:textStyle="bold"
+                                    android:textColor="#1E293B" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+                    </GridLayout>
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#F1F5F9"
-                    android:layout_marginHorizontal="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="Aktivitas Terbaru"
+                android:textColor="#1E293B"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                <!-- Item Log 2 -->
+            <!-- Card List Aktivitas -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="12dp">
-                    <ImageView
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@android:drawable/ic_lock_idle_lock"
-                        app:tint="#F59E0B" />
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <!-- Item Log 1 -->
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="12dp"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@android:drawable/ic_menu_add"
+                            android:padding="6dp"
+                            android:background="@drawable/ic_launcher_background"
+                            android:alpha="0.8"
+                            app:tint="#1E3A8A" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="User Baru Ditambahkan"
+                                android:textColor="#1E293B"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Admin menambah akun Guru baru"
+                                android:textColor="#64748B"
+                                android:textSize="12sp" />
+                        </LinearLayout>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Reset Password"
-                            android:textColor="#1E293B"
-                            android:textStyle="bold" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Siswa melakukan reset password via email"
-                            android:textColor="#64748B"
-                            android:textSize="12sp" />
+                            android:text="Baru saja"
+                            android:textColor="#94A3B8"
+                            android:textSize="11sp" />
                     </LinearLayout>
-                    <TextView
-                        android:layout_width="wrap_content"
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#F1F5F9"
+                        android:layout_marginHorizontal="12dp"/>
+
+                    <!-- Item Log 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1 jam lalu"
-                        android:textColor="#94A3B8"
-                        android:textSize="11sp" />
+                        android:gravity="center_vertical"
+                        android:padding="12dp">
+                        <ImageView
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:src="@android:drawable/ic_lock_idle_lock"
+                            android:padding="6dp"
+                            android:background="@drawable/ic_launcher_background"
+                            android:alpha="0.8"
+                            app:tint="#F59E0B" />
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Reset Password"
+                                android:textColor="#1E293B"
+                                android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Siswa me-reset password via email"
+                                android:textColor="#64748B"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1 jam lalu"
+                            android:textColor="#94A3B8"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnQuickAddUser"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="24dp"
+                android:text="Kelola Database User"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:cornerRadius="14dp"
+                app:backgroundTint="#1E3A8A"
+                app:icon="@android:drawable/ic_menu_edit" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnQuickAddUser"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="24dp"
-            android:text="Kelola Database User"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:cornerRadius="12dp"
-            app:backgroundTint="#1E3A8A" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnQuickLog"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="12dp"
+                android:text="Lihat Log Aktivitas"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                app:cornerRadius="14dp"
+                app:backgroundTint="#F1F5F9"
+                android:textColor="#64748B"
+                app:icon="@android:drawable/ic_menu_recent_history"
+                app:iconTint="#64748B"
+                app:strokeColor="#E2E8F0"
+                app:strokeWidth="1dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnQuickLog"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="12dp"
-            android:text="Lihat Log Aktivitas"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            app:cornerRadius="12dp"
-            app:backgroundTint="#64748B" />
-
+        </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

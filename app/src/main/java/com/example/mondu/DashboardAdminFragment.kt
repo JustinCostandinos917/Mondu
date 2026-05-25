@@ -25,6 +25,8 @@ class DashboardAdminFragment : Fragment() {
     private lateinit var tvTotalGuru: TextView
     private lateinit var tvTotalSiswa: TextView
     private lateinit var tvTotalKelas: TextView
+    private lateinit var tvUserName: TextView
+    private lateinit var btnLogout: MaterialCardView
     private lateinit var btnQuickAddUser: MaterialButton
     private lateinit var btnQuickLog: MaterialButton
     private lateinit var pieChart: PieChart
@@ -44,14 +46,25 @@ class DashboardAdminFragment : Fragment() {
         tvTotalGuru = view.findViewById(R.id.tvTotalGuru)
         tvTotalSiswa = view.findViewById(R.id.tvTotalSiswa)
         tvTotalKelas = view.findViewById(R.id.tvTotalKelas)
+        tvUserName = view.findViewById(R.id.tvUserNameDashboard)
+        btnLogout = view.findViewById(R.id.btnLogout)
         btnQuickAddUser = view.findViewById(R.id.btnQuickAddUser)
         btnQuickLog = view.findViewById(R.id.btnQuickLog)
         pieChart = view.findViewById(R.id.pieChartStats)
+
+        // Set User Profile Info
+        val sharedPref = requireContext().getSharedPreferences("MonduSession", android.content.Context.MODE_PRIVATE)
+        val namaLengkap = sharedPref.getString("nama_lengkap", "Admin Mondu")
+        tvUserName.text = namaLengkap
 
         setupPieChart()
 
         // Load stats
         loadStats()
+
+        btnLogout.setOnClickListener {
+            showLogoutDialog()
+        }
 
         btnQuickAddUser.setOnClickListener {
             startActivity(Intent(context, AddUserActivity::class.java))
@@ -151,6 +164,31 @@ class DashboardAdminFragment : Fragment() {
         pieChart.data = data
         pieChart.centerText = "Total\n$countTotalUser"
         pieChart.invalidate() // Refresh chart
+    }
+
+    private fun showLogoutDialog() {
+        androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            .setTitle("Logout")
+            .setMessage("Apakah Anda yakin ingin keluar?")
+            .setPositiveButton("Ya") { _, _ ->
+                performLogout()
+            }
+            .setNegativeButton("Tidak", null)
+            .show()
+    }
+
+    private fun performLogout() {
+        val sharedPref = requireContext().getSharedPreferences("MonduSession", android.content.Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.clear()
+        editor.apply()
+
+        Toast.makeText(context, "Berhasil keluar akun", Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        activity?.finish()
     }
 
     override fun onResume() {
