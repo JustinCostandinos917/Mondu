@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,12 +19,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_centerVertical="true">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Selamat Datang"
                 android:textColor="#CBD5E1"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                tools:ignore="HardcodedText" />
             <TextView
                 android:id="@+id/tvUserNameDashboard"
                 android:layout_width="wrap_content"
@@ -31,10 +34,36 @@
                 android:text="Justin Costandinos"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnLogout"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:layout_toStartOf="@id/profileCard"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="22dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#E2E8F0"
+                android:padding="8dp"
+                android:src="@android:drawable/ic_menu_myplaces"
+                tools:ignore="ContentDescription" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/profileCard"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_alignParentEnd="true"
@@ -42,12 +71,14 @@
             app:cardCornerRadius="22dp"
             app:strokeWidth="0dp"
             app:cardElevation="2dp">
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@android:drawable/ic_menu_myplaces"
-                android:background="#E2E8F0"
-                android:padding="8dp"/>
+                android:background="#FEE2E2"
+                android:padding="10dp"
+                android:src="@drawable/ic_logout"
+                tools:ignore="ContentDescription" />
         </com.google.android.material.card.MaterialCardView>
     </RelativeLayout>
 
@@ -56,7 +87,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/headerView"
-        android:layout_marginBottom="96dp" />
+        android:layout_marginBottom="96dp" >
+
+    </FrameLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottomNavCard"
@@ -83,7 +116,8 @@
             app:itemTextColor="@color/nav_item_color"
             app:itemRippleColor="#EFF6FF"
             app:elevation="0dp"
-            app:menu="@menu/menu_navigation_admin" />
+            app:menu="@menu/menu_navigation_admin"
+            tools:ignore="VisualLintBottomNav" />
 
 
     </com.google.android.material.card.MaterialCardView>

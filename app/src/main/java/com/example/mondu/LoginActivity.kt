@@ -76,6 +76,10 @@ class LoginActivity : AppCompatActivity() {
                             editor.putBoolean("is_walikelas", isWali)
                             editor.putString("nuptk", nuptk)
 
+                            if (dataUser.has("id_kelas")) {
+                                editor.putString("id_kelas", dataUser.getString("id_kelas"))
+                            }
+
                             editor.apply()
                             // Alur pemisahan halaman berdasarkan Hak Akses/Role
                             if (role == "Siswa") {
