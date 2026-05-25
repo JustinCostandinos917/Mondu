@@ -70,6 +70,10 @@ class LoginActivity : AppCompatActivity() {
                             editor.putString("nama_lengkap", namaUser)
                             editor.putString("role", role)
 
+                            if (dataUser.has("id_kelas")) {
+                                editor.putString("id_kelas", dataUser.getString("id_kelas"))
+                            }
+
                             editor.apply()
                             // Alur pemisahan halaman berdasarkan Hak Akses/Role
                             if (role == "Siswa") {
