@@ -72,6 +72,9 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
+            android:name=".BahasaActivity"
+            android:exported="false" />
+        <activity
             android:name=".DashboardSiswaActivity"
             android:exported="false" />
     </application>

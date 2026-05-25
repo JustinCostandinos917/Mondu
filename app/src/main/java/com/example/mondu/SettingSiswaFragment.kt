@@ -25,6 +25,8 @@ class SettingSiswaFragment : Fragment() {
         // Inisialisasi Komponen (Wajib pakai view.findViewById karena di dalam Fragment)
         val btnGantiPassword = view.findViewById<MaterialButton>(R.id.btn_ganti_password)
         val btnHubungiKami = view.findViewById<MaterialButton>(R.id.btn_hubungi_kami)
+        val btnBahasa = view.findViewById<MaterialButton>(R.id.btn_bahasa)
+        val btnTerms = view.findViewById<MaterialButton>(R.id.btn_terms_condition)
         val btnTentangAplikasi = view.findViewById<MaterialButton>(R.id.btn_tentang_aplikasi)
         val btnLogout = view.findViewById<MaterialButton>(R.id.btn_logout)
         val switchNotifikasi = view.findViewById<SwitchMaterial>(R.id.switch_notifikasi)
@@ -39,6 +41,21 @@ class SettingSiswaFragment : Fragment() {
         btnHubungiKami.setOnClickListener {
             val intent = Intent(requireContext(), ContactUsActivity::class.java)
             startActivity(intent)
+        }
+
+        // Listener Tombol Bahasa
+        btnBahasa.setOnClickListener {
+            val intent = Intent(requireContext(), BahasaActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Listener Syarat & Ketentuan
+        btnTerms.setOnClickListener {
+            val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            builder.setTitle("Syarat & Ketentuan")
+            builder.setMessage("1. Aplikasi Mondu digunakan untuk keperluan akademik.\n2. Siswa wajib melakukan absensi tepat waktu.\n3. Data pribadi akan dijaga kerahasiaannya sesuai kebijakan privasi.")
+            builder.setPositiveButton("Tutup", null)
+            builder.show()
         }
 
         // Listener Tombol Tentang Aplikasi
