@@ -7,12 +7,12 @@ $id_kelas = isset($_GET['id_kelas']) ? $_GET['id_kelas'] : '';
 $nuptk = isset($_GET['nuptk']) ? $_GET['nuptk'] : ''; 
 
 // Base Query (JOIN semua tabel)
-$sql = "SELECT j.id_jadwal, j.hari, jp.jam_mulai, jp.jam_selesai, m.nama_mapel, k.nama_kelas, u.nama_lengkap AS nama_guru 
+$sql = "SELECT j.id_jadwal, j.id_mapel, j.id_kelas, j.hari, jp.jam_mulai, jp.jam_selesai, m.nama_mapel, k.nama_kelas, u.nama_lengkap AS nama_guru 
         FROM jadwal j
         JOIN jam_pelajaran jp ON j.id_jam = jp.id_jam
         JOIN mata_pelajaran m ON j.id_mapel = m.id_mapel
         JOIN kelas k ON j.id_kelas = k.id_kelas
-        JOIN guru g ON j.nuptk = g.nuptk
+        JOIN guru g ON m.nuptk_guru = g.nuptk
         JOIN users u ON g.id_user = u.id_user
         WHERE 1=1"; // 'WHERE 1=1' ini trik aja biar kita bisa sambung pakai 'AND' di bawahnya
 
@@ -23,7 +23,7 @@ if (!empty($hari)) {
 
 // 2. FILTER BERDASARKAN ROLE YANG MANGGIL
 if (!empty($nuptk)) {
-    $sql .= " AND j.nuptk = '$nuptk'"; // Jika guru
+    $sql .= " AND m.nuptk_guru = '$nuptk'"; // Jika guru
 } else if (!empty($id_kelas)) {
     $sql .= " AND j.id_kelas = '$id_kelas'"; // Jika siswa/activity lain
 }
@@ -40,6 +40,8 @@ if ($result) {
         
         $data[] = [
             "id_jadwal" => $row['id_jadwal'],
+            "id_mapel" => $row['id_mapel'],  
+            "id_kelas" => $row['id_kelas'],
             "hari" => $row['hari'], 
             "nama_mapel" => $row['nama_mapel'],
             "nama_kelas" => $row['nama_kelas'],

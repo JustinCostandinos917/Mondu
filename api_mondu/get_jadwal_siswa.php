@@ -48,21 +48,22 @@ try {
 
     // 3. Query Jadwal (Join with Mapel and Guru)
     // Adjust JOINs based on your actual table names
-    $query = "SELECT j.*, m.nama_mapel, u.nama_lengkap as nama_guru
-              FROM jadwal j
-              JOIN mapel m ON j.id_mapel = m.id_mapel
-              JOIN guru g ON j.nuptk = g.nuptk
-              JOIN users u ON g.id_user = u.id_user
-              WHERE j.id_kelas = ? AND j.hari = ?
-              ORDER BY j.jam_mulai ASC";
+    $query = "SELECT j.*, jm.jam_mulai, jm.jam_selesai, m.nama_mapel, u.nama_lengkap as nama_guru
+          FROM jadwal j
+          JOIN mata_pelajaran m ON j.id_mapel = m.id_mapel
+          JOIN jam_pelajaran jm ON jm.id_jam = j.id_jam
+          JOIN guru g ON m.nuptk_guru = g.nuptk
+          JOIN users u ON g.id_user = u.id_user
+          WHERE j.id_kelas = ? 
+          ORDER BY FIELD(j.hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'), jm.jam_mulai ASC";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
-        // If it fails, maybe table/column names are different. Let's try to handle it.
         throw new Exception("Database error (jadwal): " . $conn->error);
     }
 
-    $stmt->bind_param("ss", $id_kelas, $hari_indo);
+    // Hanya bind id_kelas saja
+    $stmt->bind_param("s", $id_kelas); 
     $stmt->execute();
     $result = $stmt->get_result();
 

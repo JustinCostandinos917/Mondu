@@ -57,6 +57,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $is_wali = mysqli_num_rows($checkWali) > 0;
         }
 
+        $is_pembina_eskul = false; // Default false
+
+        // Cek apakah nuptk ini terdaftar di tabel ekskul
+        if (!empty($nuptk)) {
+            $checkEskul = mysqli_query(
+                $koneksi,
+                "SELECT id_eskul FROM eskul WHERE nuptk='$nuptk'"
+            );
+            $is_pembina_eskul = mysqli_num_rows($checkEskul) > 0;
+        }
+
         // Response sukses
         echo json_encode([
             "status" => "success",
@@ -65,7 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 "id_user" => $row['id_user'],
                 "nama_lengkap" => $row['nama_lengkap'],
                 "role" => $row['role'],
-                "is_walikelas" => $is_wali, // <-- SEKARANG SUDAH DIBERI KOMA
+                "is_walikelas" => $is_wali,
+                "is_pembina_eskul" => $is_pembina_eskul, // <-- SEKARANG SUDAH DIBERI KOMA
                 "nuptk" => $nuptk           // <-- SEKARANG AMAN UNTUK SEMUA ROLE
             ]
         ]);
