@@ -64,7 +64,6 @@ class JadwalSiswaFragment : Fragment() {
 
         pbJadwal.visibility = View.VISIBLE
         
-        // Use id_user if id_kelas is not in SharedPreferences yet
         val url = "http://10.0.2.2/api_mondu/get_jadwal_siswa.php?id_user=$idUser"
 
         val stringRequest = StringRequest(Request.Method.GET, url,
@@ -78,9 +77,6 @@ class JadwalSiswaFragment : Fragment() {
                         listJadwal.clear()
                         for (i in 0 until jsonArray.length()) {
                             val item = jsonArray.getJSONObject(i)
-                            val obj = item
-                            val hariData = obj.getString("hari").trim() // .trim() membersihkan spasi tersembunyi
-                            Log.d("DEBUG_DATA_HARI", "Hari ditemukan: '$hariData'")
                             listJadwal.add(
                                 JadwalSiswa(
                                     item.getString("id_jadwal"),
@@ -99,27 +95,23 @@ class JadwalSiswaFragment : Fragment() {
                             tvEmpty.visibility = View.VISIBLE
                         } else {
                             tvEmpty.visibility = View.GONE
-                            val urutanHari = listOf("Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu")
-                            val sortedList = ArrayList(listJadwal.sortedBy { urutanHari.indexOf(it.hari) })
-                            rvJadwal.adapter = JadwalSiswaAdapter(sortedList)
+                            // Manual sort if needed, but let's keep it simple for now
+                            rvJadwal.adapter = JadwalSiswaAdapter(listJadwal)
                         }
                     } else {
-                        tvEmpty.text = jsonObject.getString("message")
+                        val message = jsonObject.getString("message")
+                        tvEmpty.text = "Terjadi kesalahan: $message"
                         tvEmpty.visibility = View.VISIBLE
+                        Log.e("JadwalSiswa", "Server error: $message")
                     }
                 } catch (e: Exception) {
                     Log.e("JadwalSiswa", "Error parsing: ${e.message}")
-                    tvEmpty.text = "Gagal memuat jadwal."
+                    tvEmpty.text = "Gagal memuat jadwal. Cek koneksi atau server."
                     tvEmpty.visibility = View.VISIBLE
                 }
             },
             { error ->
                 pbJadwal.visibility = View.GONE
-                val errorMessage = error.networkResponse?.let {
-                    "Error ${it.statusCode}: ${String(it.data)}"
-                } ?: error.message ?: "Koneksi bermasalah."
-                
-                // Jika koneksi gagal (seperti 404), tampilkan data contoh (mock data)
                 loadMockData()
             }
         )

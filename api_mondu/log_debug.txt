@@ -1,8 +1,0 @@
-Array
-(
-    [id_kelas] => KLS001
-    [id_mapel] => MPL003
-    [id_jam] => 1
-    [hari] => Selasa
-    [nuptk] => 123456789003
-)
